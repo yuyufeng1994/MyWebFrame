@@ -6,10 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MyWebFrame" />
+        <module name="myframe" />
+        <module name="myweb" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="myframe" target="1.5" />
+      <module name="myweb" target="1.5" />
       <module name="MyWebFrame" target="1.5" />
     </bytecodeTargetLevel>
   </component>
