@@ -11,7 +11,7 @@ public class TestAction {
     @MyAction(value = "/test")
     public String testMyMethod() {
         System.out.println("TestAction.testMyMethod");
-        return "test";
+        return "index";
     }
 
     @MyAction(value = "/test2")
