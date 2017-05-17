@@ -13,7 +13,13 @@
     <%@ include file="/WEB-INF/jsp/include/head.jsp" %>
 </head>
 <body>
-<h1>用户列表</h1>
+<h1>用户列表<font color="red">${message}</font></h1>
+<form action="/user/add.do" method="post">
+    用户ID:<input type="text" name="userId">
+    <br>用户名:<input type="text" name="userName">
+    <br>备注信息:<input type="text" name="note">
+    <br><input type="submit" value="提交">
+</form>
 <c:forEach items="${users}" var="u">
     <p>${u.userId} ${u.userName}</p>
 </c:forEach>

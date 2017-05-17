@@ -18,4 +18,9 @@ public class TestAction {
         System.out.println("TestAction.testMyMethod2");
         return "test";
     }
+
+    public static void main(String[] args) {
+        TestAction ta = new TestAction();
+
+    }
 }
