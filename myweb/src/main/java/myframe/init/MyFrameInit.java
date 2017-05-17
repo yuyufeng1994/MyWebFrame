@@ -27,7 +27,6 @@ public class MyFrameInit {
         objectMap = new HashMap<Class<?>, Object>();
         Set<Class<?>> classes = ClassUtil.getClasses("action");
         for (Class<?> aClass : classes) {
-            System.out.println(aClass);
             if (aClass.isAnnotationPresent(MyAction.class)) {
                 MyAction mac = aClass.getAnnotation(MyAction.class);
                 String classAnnoValue = mac.value().trim();

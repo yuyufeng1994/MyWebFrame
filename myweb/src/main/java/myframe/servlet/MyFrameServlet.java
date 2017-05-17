@@ -1,6 +1,7 @@
 package myframe.servlet;
 
 import myframe.bean.ActionBean;
+import myframe.bean.Model;
 import myframe.init.MyFrameInit;
 
 import javax.servlet.ServletConfig;
@@ -33,22 +34,36 @@ public class MyFrameServlet extends HttpServlet {
         //获取要执行的动作
         String uri = req.getRequestURI();
         String actionName = uri.substring(0, uri.indexOf(".do"));
-        System.out.println("访问Action:" + actionName);
+        System.out.println("访问ActionMethod:" + actionName);
 
         //do
+        String fileName="";
         ActionBean actionBean = MyFrameInit.getActionBean(actionName);
-        String result = "";
+        Object result = null;
         try {
-            result = (String) actionBean.getMethod().invoke(MyFrameInit.getObject(actionBean.getClazz()));
+            Class returnType = actionBean.getMethod().getReturnType();
+            result =  actionBean.getMethod().invoke(MyFrameInit.getObject(actionBean.getClazz()));
+
+            //判断返回的类型，然后执行不同的动作
+            if(returnType == Model.class){
+                Model modelResult = (Model) result;
+                fileName = modelResult.getReturnPath();
+                //设置属性
+                for (String s : modelResult.getModelMap().keySet()) {
+                    req.setAttribute(s,modelResult.getModelMap().get(s));
+                }
+            }else if(returnType == String.class){
+                fileName = (String) result;
+            }
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
 
-        //return
-        String fileName = result;
-        System.out.println("执行完毕，跳转路径"+"/WEB-INF/jsp/" + fileName + ".jsp");
+
+        System.out.println("执行完毕，跳转路径"+"/WEB-INF/jsp/" + fileName + ".jsp");  ///WEB-INF/jsp/这些暂时写死，到时候可以到配置中获取
         req.getRequestDispatcher("/WEB-INF/jsp/" + fileName + ".jsp").forward(req, resp);
 
     }

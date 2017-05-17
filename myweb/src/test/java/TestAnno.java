@@ -48,6 +48,7 @@ public class TestAnno {
             String result= (String) ab.getMethod().invoke(objectMap.get(ab.getClazz()));
             System.out.println(result);
 
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: yuyufeng
+  entity.User: yuyufeng
   Date: 2017/5/5
   Time: 10:06
   To change this template use File | Settings | File Templates.
