@@ -14,6 +14,8 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by yuyufeng on 2017/5/5.
  */
+
+
 public class MyFrameServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -31,13 +33,13 @@ public class MyFrameServlet extends HttpServlet {
         //获取要执行的动作
         String uri = req.getRequestURI();
         String actionName = uri.substring(0, uri.indexOf(".do"));
-        System.out.println("actionName:" + actionName);
+        System.out.println("访问Action:" + actionName);
 
         //do
-
         ActionBean actionBean = MyFrameInit.getActionBean(actionName);
+        String result = "";
         try {
-            actionBean.getMethod().invoke(MyFrameInit.getObject(actionBean.getClazz()));
+            result = (String) actionBean.getMethod().invoke(MyFrameInit.getObject(actionBean.getClazz()));
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
@@ -45,9 +47,9 @@ public class MyFrameServlet extends HttpServlet {
         }
 
         //return
-        String fileName = "index";
-        System.out.println("/WEB-INF/jsp/"+fileName+".jsp");
-        req.getRequestDispatcher("/WEB-INF/jsp/"+fileName+".jsp").forward(req,resp);
+        String fileName = result;
+        System.out.println("执行完毕，跳转路径"+"/WEB-INF/jsp/" + fileName + ".jsp");
+        req.getRequestDispatcher("/WEB-INF/jsp/" + fileName + ".jsp").forward(req, resp);
 
     }
 

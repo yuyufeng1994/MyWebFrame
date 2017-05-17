@@ -41,7 +41,7 @@ public class TestAnno {
         }
 
 
-        ActionBean ab = map.get("/rot/test2");
+        ActionBean ab = map.get("/root/test2");
         System.out.println(ab);
         try {
 

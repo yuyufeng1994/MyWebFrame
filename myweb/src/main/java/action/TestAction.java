@@ -1,12 +1,11 @@
 package action;
 
 import myframe.annotation.MyAction;
-import myframe.annotation.MyMethod;
 
 /**
  * Created by yuyufeng on 2017/5/5.
  */
-@MyAction(value="/rot")
+@MyAction(value="/root")
 public class TestAction {
     @MyAction(value = "/test")
     public String testMyMethod() {
