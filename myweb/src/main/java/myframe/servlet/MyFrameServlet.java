@@ -6,6 +6,7 @@ import myframe.bean.ActionBean;
 import myframe.bean.Model;
 import myframe.commons.LoadUtil;
 import myframe.convert.ConvertFactory;
+import myframe.enums.ReturnTypeEnum;
 import myframe.init.MyFrameInit;
 
 import javax.servlet.ServletConfig;
@@ -46,9 +47,9 @@ public class MyFrameServlet extends HttpServlet {
         String actionName = uri.substring(0, uri.indexOf(".do"));
         System.out.println("访问ActionMethod:" + actionName);
         //do
-        String fileName = "";
+        String path = "";
         ActionBean actionBean = MyFrameInit.getActionBean(actionName);
-        Object result = null;
+        Object result;
         try {
             Class returnType = actionBean.getMethod().getReturnType();
 
@@ -61,16 +62,22 @@ public class MyFrameServlet extends HttpServlet {
 
             result = actionBean.getMethod().invoke(MyFrameInit.getObject(actionBean.getClazz()), prarms);
 
+
             //判断返回的类型，然后执行不同的动作
             if (returnType == Model.class) {
                 Model modelResult = (Model) result;
-                fileName = modelResult.getReturnPath();
+                path = modelResult.getReturnPath();
+                //重定向
+                if (modelResult.getReturnType() == ReturnTypeEnum.redirect) {
+                    System.out.println("执行重定向完毕，跳转路径" + path);
+                    resp.sendRedirect(path);
+                }
                 //设置属性
                 for (String s : modelResult.getModelMap().keySet()) {
                     req.setAttribute(s, modelResult.getModelMap().get(s));
                 }
             } else if (returnType == String.class) {
-                fileName = (String) result;
+                path = (String) result;
             }
 
         } catch (IllegalAccessException e) {
@@ -82,12 +89,9 @@ public class MyFrameServlet extends HttpServlet {
         }
 
 
-        System.out.println("执行完毕，跳转路径" + "/WEB-INF/jsp/" + fileName + ".jsp");  ///WEB-INF/jsp/这些暂时写死，到时候可以到配置中获取
-        req.getRequestDispatcher("/WEB-INF/jsp/" + fileName + ".jsp").forward(req, resp);
-
+        System.out.println("执行完毕，跳转路径" + "/WEB-INF/jsp/" + path + ".jsp");  ///WEB-INF/jsp/这些暂时写死，到时候可以到配置中获取
+        req.getRequestDispatcher("/WEB-INF/jsp/" + path + ".jsp").forward(req, resp);
     }
-
-
 
 
     @Override

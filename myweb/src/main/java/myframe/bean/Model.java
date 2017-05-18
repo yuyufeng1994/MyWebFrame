@@ -1,5 +1,7 @@
 package myframe.bean;
 
+import myframe.enums.ReturnTypeEnum;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +9,7 @@ import java.util.Map;
  * Created by yuyufeng on 2017/5/17.
  */
 public class Model {
-    private String returnType="forward"; //forward redirect
+    private ReturnTypeEnum returnType = ReturnTypeEnum.forward;
     private String returnPath;
 
     private Map<String, Object> map = new HashMap<String, Object>();
@@ -20,11 +22,11 @@ public class Model {
         return map;
     }
 
-    public String getReturnType() {
+    public ReturnTypeEnum getReturnType() {
         return returnType;
     }
 
-    public void setReturnType(String returnType) {
+    public void setReturnType(ReturnTypeEnum returnType) {
         this.returnType = returnType;
     }
 
