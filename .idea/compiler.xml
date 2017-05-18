@@ -12,7 +12,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="myframe" target="1.5" />
-      <module name="myweb" target="1.5" />
+      <module name="myweb" target="1.6" />
       <module name="MyWebFrame" target="1.5" />
     </bytecodeTargetLevel>
   </component>

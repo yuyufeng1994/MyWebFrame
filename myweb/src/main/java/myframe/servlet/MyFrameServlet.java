@@ -1,8 +1,11 @@
 package myframe.servlet;
 
 import entity.User;
+import myframe.annotation.MyParam;
 import myframe.bean.ActionBean;
 import myframe.bean.Model;
+import myframe.commons.LoadUtil;
+import myframe.convert.ConvertFactory;
 import myframe.init.MyFrameInit;
 
 import javax.servlet.ServletConfig;
@@ -11,7 +14,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yuyufeng on 2017/5/5.
@@ -37,7 +45,6 @@ public class MyFrameServlet extends HttpServlet {
         String uri = req.getRequestURI();
         String actionName = uri.substring(0, uri.indexOf(".do"));
         System.out.println("访问ActionMethod:" + actionName);
-
         //do
         String fileName = "";
         ActionBean actionBean = MyFrameInit.getActionBean(actionName);
@@ -46,8 +53,11 @@ public class MyFrameServlet extends HttpServlet {
             Class returnType = actionBean.getMethod().getReturnType();
 
             //执行方法的参数填充
-            Class<?>[] paramTypes = actionBean.getMethod().getParameterTypes();
-            Object[] prarms = loadParameter(paramTypes,req);
+            Map<String, String[]> reqMap = req.getParameterMap();
+
+            Object[] prarms = new Object[actionBean.getMethod().getParameterTypes().length];
+            //参数装载
+            LoadUtil.loadParams(reqMap, actionBean.getMethod(), prarms);
 
             result = actionBean.getMethod().invoke(MyFrameInit.getObject(actionBean.getClazz()), prarms);
 
@@ -67,6 +77,8 @@ public class MyFrameServlet extends HttpServlet {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         }
 
 
@@ -75,16 +87,7 @@ public class MyFrameServlet extends HttpServlet {
 
     }
 
-    private Object[] loadParameter(Class<?>[] paramTypes, HttpServletRequest request) {
-        Object[] prarms = new Object[paramTypes.length];
-//        Object[] prarms = new Object[]{new User(), "aa"};
-        for (Class<?> paramType : paramTypes) {
-            System.out.println(paramType);
-        }
 
-
-        return prarms;
-    }
 
 
     @Override
