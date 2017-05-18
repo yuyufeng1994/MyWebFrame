@@ -51,7 +51,7 @@ public class MyFrameServlet extends HttpServlet {
         ActionBean actionBean = MyFrameInit.getActionBean(actionName);
         Object result;
         try {
-            Class returnType = actionBean.getMethod().getReturnType();
+            Class<?> returnType = actionBean.getMethod().getReturnType();
 
             //执行方法的参数填充
             Map<String, String[]> reqMap = req.getParameterMap();
