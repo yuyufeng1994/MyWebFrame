@@ -43,6 +43,7 @@ public class UserAction {
         model.addAttribute("message", "增加用户成功！");
         users.add(user);
         System.out.println("note:"+note);
+        System.out.println("user:"+user);
         model.addAttribute("users", users);
         model.setReturnPath("user/list");
         return model;

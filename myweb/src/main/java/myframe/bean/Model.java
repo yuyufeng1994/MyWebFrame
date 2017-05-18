@@ -9,8 +9,8 @@ import java.util.Map;
  * Created by yuyufeng on 2017/5/17.
  */
 public class Model {
-    private ReturnTypeEnum returnType = ReturnTypeEnum.forward;
-    private String returnPath;
+    private ReturnTypeEnum returnType = ReturnTypeEnum.forward; //响应类型
+    private String returnPath; //返回路径
 
     private Map<String, Object> map = new HashMap<String, Object>();
 

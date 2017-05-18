@@ -41,6 +41,7 @@ public class MyFrameServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.setCharacterEncoding("UTF-8");
         //获取要执行的动作
         String uri = req.getRequestURI();
